@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlottingPointsRouteImport } from './routes/plotting-points'
+import { Route as ProjectionsRouteImport } from './routes/projections'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const PlottingPointsRoute = PlottingPointsRouteImport.update({
   path: '/plotting-points',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectionsRoute = ProjectionsRouteImport.update({
+  id: '/projections',
+  path: '/projections',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/plotting-points': typeof PlottingPointsRoute
+  '/projections': typeof ProjectionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/plotting-points': typeof PlottingPointsRoute
+  '/projections': typeof ProjectionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/plotting-points': typeof PlottingPointsRoute
+  '/projections': typeof ProjectionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/plotting-points'
+  fullPaths: '/' | '/plotting-points' | '/projections'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/plotting-points'
-  id: '__root__' | '/' | '/plotting-points'
+  to: '/' | '/plotting-points' | '/projections'
+  id: '__root__' | '/' | '/plotting-points' | '/projections'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PlottingPointsRoute: typeof PlottingPointsRoute
+  ProjectionsRoute: typeof ProjectionsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlottingPointsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projections': {
+      id: '/projections'
+      path: '/projections'
+      fullPath: '/projections'
+      preLoaderRoute: typeof ProjectionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PlottingPointsRoute: PlottingPointsRoute,
+  ProjectionsRoute: ProjectionsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
