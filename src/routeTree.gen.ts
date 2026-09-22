@@ -10,12 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ActivitiesRouteImport } from './routes/activities'
+import { Route as MidpointRouteImport } from './routes/midpoint'
 import { Route as PlottingPointsRouteImport } from './routes/plotting-points'
 import { Route as ProjectionsRouteImport } from './routes/projections'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActivitiesRoute = ActivitiesRouteImport.update({
+  id: '/activities',
+  path: '/activities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MidpointRoute = MidpointRouteImport.update({
+  id: '/midpoint',
+  path: '/midpoint',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlottingPointsRoute = PlottingPointsRouteImport.update({
@@ -31,30 +43,45 @@ const ProjectionsRoute = ProjectionsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/midpoint': typeof MidpointRoute
   '/plotting-points': typeof PlottingPointsRoute
   '/projections': typeof ProjectionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/midpoint': typeof MidpointRoute
   '/plotting-points': typeof PlottingPointsRoute
   '/projections': typeof ProjectionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/midpoint': typeof MidpointRoute
   '/plotting-points': typeof PlottingPointsRoute
   '/projections': typeof ProjectionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/plotting-points' | '/projections'
+  fullPaths:
+    '/' | '/activities' | '/midpoint' | '/plotting-points' | '/projections'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/plotting-points' | '/projections'
-  id: '__root__' | '/' | '/plotting-points' | '/projections'
+  to: '/' | '/activities' | '/midpoint' | '/plotting-points' | '/projections'
+  id:
+    | '__root__'
+    | '/'
+    | '/activities'
+    | '/midpoint'
+    | '/plotting-points'
+    | '/projections'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ActivitiesRoute: typeof ActivitiesRoute
+  MidpointRoute: typeof MidpointRoute
   PlottingPointsRoute: typeof PlottingPointsRoute
   ProjectionsRoute: typeof ProjectionsRoute
 }
@@ -66,6 +93,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/activities': {
+      id: '/activities'
+      path: '/activities'
+      fullPath: '/activities'
+      preLoaderRoute: typeof ActivitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/midpoint': {
+      id: '/midpoint'
+      path: '/midpoint'
+      fullPath: '/midpoint'
+      preLoaderRoute: typeof MidpointRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/plotting-points': {
@@ -87,6 +128,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ActivitiesRoute: ActivitiesRoute,
+  MidpointRoute: MidpointRoute,
   PlottingPointsRoute: PlottingPointsRoute,
   ProjectionsRoute: ProjectionsRoute,
 }
