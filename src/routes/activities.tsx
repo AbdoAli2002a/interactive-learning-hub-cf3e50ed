@@ -84,10 +84,19 @@ function PlotGame() {
       <div className="mt-4 grid gap-5 md:grid-cols-2 md:items-center">
         <CoordinatePlane
           range={6}
-          onPlot={picked ? undefined : handlePlot}
+          {...(picked ? {} : { onPlot: handlePlot })}
           ariaLabel="Click the plane to plot the requested point"
           points={[
-            ...(picked ? [{ ...picked, label: `you(${picked.x},${picked.y})`, tone: (correct ? "success" : "destructive") as const }] : []),
+            ...(picked
+              ? [
+                  {
+                    x: picked.x,
+                    y: picked.y,
+                    label: `you(${picked.x},${picked.y})`,
+                    tone: correct ? ("success" as const) : ("destructive" as const),
+                  },
+                ]
+              : []),
             ...(picked && !correct
               ? [{ ...target, label: `correct(${target.x},${target.y})`, tone: "accent" as const }]
               : []),
